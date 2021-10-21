@@ -16,3 +16,6 @@ class ImdbSpider(scrapy.Spider):
         for urls in actor_urls:
             yield scrapy.Request(urls, self.parse_actor_page)
     def parse_actor_page(self,response):
+        actor_name = response.css("span.itemprop::text").get()
+        movie_or_TV_name = response.css("div.filmo-category-section")[0].css("b a::text").getall()
+        yield {"actor" : actor_name, "movie_or_TV_name" : movie_or_TV_name}
